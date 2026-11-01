@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: syncify
+      POSTGRES_USER: syncify
+      POSTGRES_PASSWORD: syncify_local
+    ports:
+      - "5432:5432"
+    volumes:
+      - syncify-postgres:/var/lib/postgresql/data
+
+volumes:
+  syncify-postgres:

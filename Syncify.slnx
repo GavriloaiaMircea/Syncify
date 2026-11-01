@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Syncify.Api/Syncify.Api.csproj" />
+    <Project Path="src/Syncify.Application/Syncify.Application.csproj" />
+    <Project Path="src/Syncify.Domain/Syncify.Domain.csproj" />
+    <Project Path="src/Syncify.Infrastructure/Syncify.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Syncify.Domain.Tests/Syncify.Domain.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\Syncify.Application\Syncify.Application.csproj" />
+    <ProjectReference Include="..\Syncify.Domain\Syncify.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

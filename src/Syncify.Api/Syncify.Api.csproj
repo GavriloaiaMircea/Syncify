@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <UserSecretsId>877d511a-236f-4d35-a8a3-32b5ecb4732c</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Syncify.Application\Syncify.Application.csproj" />
+    <ProjectReference Include="..\Syncify.Infrastructure\Syncify.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.14" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.18.7" />
+  </ItemGroup>
+
+</Project>

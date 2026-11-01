@@ -1,0 +1,6 @@
+@Syncify.Api_HostAddress = http://127.0.0.1:5050
+
+GET {{Syncify.Api_HostAddress}}/health
+Accept: application/json
+
+###
