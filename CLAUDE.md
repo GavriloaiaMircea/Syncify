@@ -25,7 +25,7 @@ The build treats warnings as errors. Run build + tests before every commit.
 
 ## Code conventions
 
-- File-scoped namespaces, one public type per file, `sealed` classes and `record`s by default.
+- File-scoped namespaces, one public type per file, `sealed` classes and `record`s by default. Small enums that only describe one type live in that type's file (e.g. `MatchStatus` and `MatchReason` in `MatchResult.cs`).
 - Expected outcomes (song not found, private playlist, invalid link) are return values, not exceptions. Exceptions are for bugs and infrastructure failures.
 - Async methods take a `CancellationToken`. Use `TimeProvider` instead of `DateTime.UtcNow`.
 - Matching is platform-agnostic: it compares one source track against candidates, whichever platform each side is from.
