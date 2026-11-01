@@ -1,4 +1,7 @@
+using System.Text.Json.Serialization;
 using Scalar.AspNetCore;
+using Syncify.Api.Endpoints;
+using Syncify.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +14,10 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
+builder.Services.ConfigureHttpJsonOptions(options =>
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddOpenApi();
+builder.Services.AddInfrastructure();
 
 var app = builder.Build();
 
@@ -19,6 +25,7 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
     app.MapScalarApiReference();
+    app.MapDevEndpoints();
 }
 
 app.UseCors("Web");
