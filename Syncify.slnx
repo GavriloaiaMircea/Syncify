@@ -7,5 +7,6 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Syncify.Domain.Tests/Syncify.Domain.Tests.csproj" />
+    <Project Path="tests/Syncify.Infrastructure.Tests/Syncify.Infrastructure.Tests.csproj" />
   </Folder>
 </Solution>

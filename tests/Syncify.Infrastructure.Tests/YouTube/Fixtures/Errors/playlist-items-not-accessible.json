@@ -1,0 +1,15 @@
+{
+  "error": {
+    "code": 403,
+    "message": "The request is not properly authorized to retrieve the specified playlist.",
+    "errors": [
+      {
+        "message": "The request is not properly authorized to retrieve the specified playlist.",
+        "domain": "youtube.playlistItem",
+        "reason": "playlistItemsNotAccessible",
+        "location": "playlistId",
+        "locationType": "parameter"
+      }
+    ]
+  }
+}
