@@ -25,6 +25,8 @@ public sealed class YouTubeTitleParserTests(ITestOutputHelper output)
     [InlineData("Tzanca Uraganu ❌ Florin Salam - Daca ai femeie frumoasa", "Tzanca Uraganu|Florin Salam", "Daca ai femeie frumoasa")]
     [InlineData("Puya - Striga (feat. Inna) | Videoclip Oficial", "Puya|Inna", "Striga")]
     [InlineData("INNA - Spre Mare (feat. INNA)", "INNA", "Spre Mare")]
+    [InlineData("Smiley - Tu feat. Alex Velea (Live)", "Smiley|Alex Velea", "Tu (Live)")]
+    [InlineData("Smiley - Tu feat. Alex Velea - Remix", "Smiley|Alex Velea", "Tu - Remix")]
     public void Parse_ArtistDashSongTitle_ReturnsArtistsAndSong(string title, string artists, string song)
     {
         var parsed = YouTubeTitleParser.Parse(title);

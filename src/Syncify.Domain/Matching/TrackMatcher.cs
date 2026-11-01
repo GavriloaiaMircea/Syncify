@@ -13,12 +13,15 @@ public static class TrackMatcher
     private const double ArtistWeight = 0.3;
     private const double DurationWeight = 0.1;
 
+    private const double ArtistMatchThreshold = 0.8;
+
     // Without a known artist a perfect title only reaches 0.8, so the track is never matched on title alone.
     private const double UnknownArtistFactor = 0.8;
+
+    // A doubtful artist ("Florin Salam" vs "Florin Cercel") is treated like an unknown one: at best ambiguous.
+    private const double DoubtfulArtistCap = 0.8;
     private const double ArtistMismatchCap = 0.4;
     private const double VersionMismatchPenalty = 0.2;
-
-    private static readonly HashSet<string> JoinerWords = ["x", "feat", "ft", "si", "cu", "and"];
 
     public static MatchResult Match(TrackInfo source, IReadOnlyList<MatchCandidate> candidates)
     {
@@ -27,7 +30,11 @@ public static class TrackMatcher
             return new MatchResult(MatchStatus.NotFound, null, 0, [MatchReason.NoCandidates]);
         }
 
-        var ranked = candidates.Select(candidate => Score(source, candidate)).OrderByDescending(score => score.Confidence).ToList();
+        var sourceVersion = VersionDetector.Detect(source.Title);
+        var ranked = candidates
+            .Select(candidate => Score(source, sourceVersion, candidate))
+            .OrderByDescending(score => score.Confidence)
+            .ToList();
         var best = ranked[0];
 
         if (best.Confidence < AmbiguousThreshold)
@@ -46,22 +53,27 @@ public static class TrackMatcher
         return new MatchResult(status, best.Candidate, best.Confidence, best.Reasons);
     }
 
-    private static ScoredCandidate Score(TrackInfo source, MatchCandidate candidate)
+    private static ScoredCandidate Score(TrackInfo source, TrackVersion sourceVersion, MatchCandidate candidate)
     {
         var target = candidate.Track;
         var reasons = new List<MatchReason>();
-        var sourceTitle = source.Title;
+        var titleScore = TitleScore(source.Title, target.Title);
         double? artistScore = null;
 
         if (source.Artists.Count > 0 && target.Artists.Count > 0)
         {
             artistScore = source.Artists.Max(sourceArtist => target.Artists.Max(targetArtist => TextSimilarity.Compare(sourceArtist, targetArtist)));
-            reasons.Add(artistScore >= 0.8 ? MatchReason.ArtistMatch : MatchReason.ArtistMismatch);
+            reasons.Add(artistScore >= ArtistMatchThreshold ? MatchReason.ArtistMatch : MatchReason.ArtistMismatch);
         }
-        else if (source.Artists.Count == 0 && TryStripArtists(source.Title, target.Artists, out var strippedTitle))
+        else if (source.Artists.Count == 0
+            && TryStripArtists(source.Title, target.Artists, out var strippedTitle)
+            && TitleScore(strippedTitle, target.Title) is var strippedScore
+            && strippedScore >= titleScore)
         {
-            // Titles without a separator ("Da vina pe VOLTAJ") may still name the artist somewhere.
-            sourceTitle = strippedTitle;
+            // A title without a separator may still credit the artist ("Theo Rose x Valentin Dinu Pacatul Meu").
+            // It only counts when removing the name is what makes the titles agree; otherwise the name is part of
+            // the song itself ("Mi-e dor de tine" is not a song by an artist called "Tine").
+            titleScore = strippedScore;
             artistScore = 1;
             reasons.Add(MatchReason.ArtistFoundInTitle);
         }
@@ -70,9 +82,6 @@ public static class TrackMatcher
             reasons.Add(MatchReason.ArtistUnknown);
         }
 
-        var titleScore = Math.Max(
-            TextSimilarity.Compare(sourceTitle, target.Title),
-            TextSimilarity.Compare(TitleNoise.CoreTitle(sourceTitle), TitleNoise.CoreTitle(target.Title)));
         reasons.Add(titleScore switch
         {
             >= 0.95 => MatchReason.TitleMatch,
@@ -107,13 +116,17 @@ public static class TrackMatcher
         {
             confidence = Math.Min(confidence, ArtistMismatchCap);
         }
+        else if (artistScore < ArtistMatchThreshold)
+        {
+            confidence = Math.Min(confidence, DoubtfulArtistCap);
+        }
 
         if (titleScore < 0.5)
         {
             confidence = Math.Min(confidence, titleScore);
         }
 
-        if (VersionDetector.Detect(sourceTitle) != VersionDetector.Detect(target.Title))
+        if (sourceVersion != VersionDetector.Detect(target.Title))
         {
             confidence -= VersionMismatchPenalty;
             reasons.Add(MatchReason.VersionMismatch);
@@ -121,6 +134,11 @@ public static class TrackMatcher
 
         return new ScoredCandidate(candidate, Math.Clamp(confidence, 0, 1), reasons);
     }
+
+    private static double TitleScore(string sourceTitle, string targetTitle) =>
+        Math.Max(
+            TextSimilarity.Compare(sourceTitle, targetTitle),
+            TextSimilarity.Compare(TitleNoise.CoreTitle(sourceTitle), TitleNoise.CoreTitle(targetTitle)));
 
     // Music videos often carry intros or outros, so a few seconds off is normal and only a large gap is suspicious.
     private static double? ScoreDuration(TimeSpan? source, TimeSpan? target, List<MatchReason> reasons)
@@ -167,10 +185,16 @@ public static class TrackMatcher
             }
         }
 
-        // Drop the joiners left behind by removed names: "theo rose x valentin dinu pacatul meu".
-        while (tokens.Count > 0 && JoinerWords.Contains(tokens[0]))
+        // Drop the joiners left behind by removed names, on either side: "theo rose x ... pacatul meu",
+        // "pacatul meu feat theo rose". Joiners in the middle stay, since they may be part of the song ("Tu si Eu").
+        while (tokens.Count > 0 && ArtistSplitter.JoinerWords.Contains(tokens[0]))
         {
             tokens.RemoveAt(0);
+        }
+
+        while (tokens.Count > 0 && ArtistSplitter.JoinerWords.Contains(tokens[^1]))
+        {
+            tokens.RemoveAt(tokens.Count - 1);
         }
 
         strippedTitle = string.Join(' ', tokens);

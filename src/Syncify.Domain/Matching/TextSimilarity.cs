@@ -8,14 +8,15 @@ public static class TextSimilarity
         var a = TextNormalizer.Normalize(left);
         var b = TextNormalizer.Normalize(right);
 
-        if (a == b)
-        {
-            return 1;
-        }
-
+        // Text with no letters left (only emojis, say) is no evidence of a match, even against more of the same.
         if (a.Length == 0 || b.Length == 0)
         {
             return 0;
+        }
+
+        if (a == b)
+        {
+            return 1;
         }
 
         // Sorting tokens forgives reordered words: "Moga Marius" vs "Marius Moga".

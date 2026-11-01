@@ -7,8 +7,15 @@ namespace Syncify.Domain.Matching;
 /// </summary>
 public static partial class ArtistSplitter
 {
+    /// <summary>Words that introduce a featured artist. Safe to cut a song title at, unlike "x" or "si".</summary>
+    internal const string FeatureMarker = @"(?:feat\.?|ft\.?|featuring)";
+
+    /// <summary>Every joiner word between artists, as normalized tokens.</summary>
+    internal static readonly HashSet<string> JoinerWords = ["feat", "ft", "featuring", "with", "x", "si", "cu", "vs"];
+
+    // Brackets in a credit only wrap joiners ("INNA (feat. J Balvin)"), so they become spaces to let the joiner match.
     public static IReadOnlyList<string> Split(string credit) =>
-        Joiner().Split(NormalizeJoiners(credit))
+        Joiner().Split(CreditBracket().Replace(NormalizeJoiners(credit), " "))
             .Select(CleanName)
             .Where(name => name.Length > 0)
             .DistinctBy(TextNormalizer.Normalize)
@@ -29,7 +36,7 @@ public static partial class ArtistSplitter
             start++;
         }
 
-        while (end > start && !(char.IsLetterOrDigit(text[end - 1]) || text[end - 1] is '.' or '!' or '?' or ')' or '$'))
+        while (end > start && !(char.IsLetterOrDigit(text[end - 1]) || text[end - 1] is '.' or '!' or '?' or '$'))
         {
             end--;
         }
@@ -37,8 +44,11 @@ public static partial class ArtistSplitter
         return text[start..end];
     }
 
-    [GeneratedRegex(@"\s*[,&+;|]\s*|\s+(?:feat\.?|ft\.?|featuring|with|x|si|și|cu|vs\.?)\s+", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"\s*[,&+;|]\s*|\s+(?:" + FeatureMarker + @"|with|x|si|și|cu|vs\.?)\s+", RegexOptions.IgnoreCase)]
     private static partial Regex Joiner();
+
+    [GeneratedRegex(@"[()\[\]{}]")]
+    private static partial Regex CreditBracket();
 
     [GeneratedRegex(@"\s*(?:❌|✘|✖|×|💔)️?\s*")]
     private static partial Regex JoinerSymbol();

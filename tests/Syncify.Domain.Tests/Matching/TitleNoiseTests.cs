@@ -23,6 +23,7 @@ public sealed class TitleNoiseTests
     [InlineData("Vino, Vino - HIT", "Vino, Vino")]
     [InlineData("Memories ( official video )", "Memories")]
     [InlineData("De Ce Plang Chitarele [Official Video] HD", "De Ce Plang Chitarele")]
+    [InlineData("Tu [Videoclip Oficial (HD)]", "Tu")]
     public void Clean_PromotionalDecoration_IsRemoved(string input, string expected) =>
         TitleNoise.Clean(input).ShouldBe(expected);
 

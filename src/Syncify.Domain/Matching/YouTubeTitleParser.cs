@@ -93,11 +93,11 @@ public static partial class YouTubeTitleParser
         if (trailing.Success)
         {
             featured.AddRange(ArtistSplitter.Split(trailing.Groups["artists"].Value));
-            song = song[..trailing.Index];
+            song = $"{song[..trailing.Index]} {trailing.Groups["rest"].Value}";
         }
 
         var allArtists = artists.Concat(featured).DistinctBy(TextNormalizer.Normalize).ToList();
-        return new ParsedTitle(allArtists, Unquote(song.Trim()));
+        return new ParsedTitle(allArtists, Unquote(TextNormalizer.CollapseWhitespace(song)));
     }
 
     private static string Unquote(string song) =>
@@ -118,9 +118,11 @@ public static partial class YouTubeTitleParser
     [GeneratedRegex(@"^(?<artists>.+?)\s+(?:\p{So}|\p{Sk}|\p{Cs}|️|‍)+\s+(?<song>.+)$")]
     private static partial Regex EmojiSeparated();
 
-    [GeneratedRegex(@"[(\[]\s*(?:feat\.?|ft\.?|featuring|with|special\s+guest:?)\s+(?<artists>[^()\[\]]+)[)\]]", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"[(\[]\s*(?:" + ArtistSplitter.FeatureMarker + @"|with|special\s+guest:?)\s+(?<artists>[^()\[\]]+)[)\]]", RegexOptions.IgnoreCase)]
     private static partial Regex BracketedFeature();
 
-    [GeneratedRegex(@"\s(?:feat\.?|ft\.?|featuring)\s+(?<artists>.+)$", RegexOptions.IgnoreCase)]
+    // Brackets and dash suffixes after the credit belong to the song, not the artist:
+    // "Tu feat. Alex Velea (Live)", "Tu feat. Alex Velea - Remix".
+    [GeneratedRegex(@"\s" + ArtistSplitter.FeatureMarker + @"\s+(?<artists>[^()\[\]]+?)\s*(?<rest>(?:[(\[]|\s[-–—]\s).*)?$", RegexOptions.IgnoreCase)]
     private static partial Regex TrailingFeature();
 }

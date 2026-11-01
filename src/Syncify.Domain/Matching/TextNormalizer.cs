@@ -15,9 +15,11 @@ public static partial class TextNormalizer
         var builder = new StringBuilder(text.Length);
         var pendingSpace = false;
 
-        foreach (var c in text.Normalize(NormalizationForm.FormD))
+        // FormKD also folds stylized letters ("𝐂𝐨𝐥𝐚", "ＩＮＮＡ") to plain ones. It splits "´" into a space plus
+        // an accent, so that apostrophe is swapped first to stay silent.
+        foreach (var rune in text.Replace('´', '\'').Normalize(NormalizationForm.FormKD).EnumerateRunes())
         {
-            if (char.IsLetterOrDigit(c))
+            if (Rune.IsLetterOrDigit(rune))
             {
                 if (pendingSpace && builder.Length > 0)
                 {
@@ -25,9 +27,9 @@ public static partial class TextNormalizer
                 }
 
                 pendingSpace = false;
-                builder.Append(char.ToLowerInvariant(c));
+                builder.Append(Rune.ToLowerInvariant(rune).ToString());
             }
-            else if (CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark && !IsSilentPunctuation(c))
+            else if (Rune.GetUnicodeCategory(rune) != UnicodeCategory.NonSpacingMark && !IsSilentPunctuation(rune))
             {
                 pendingSpace = true;
             }
@@ -42,7 +44,7 @@ public static partial class TextNormalizer
     internal static string CollapseWhitespace(string text) => Whitespace().Replace(text, " ").Trim();
 
     // Dots and apostrophes sit inside words ("B.U.G.", "Carla's"), so dropping them keeps the word whole.
-    private static bool IsSilentPunctuation(char c) => c is '.' or '\'' or '’' or '`' or '´';
+    private static bool IsSilentPunctuation(Rune rune) => rune.IsBmp && (char)rune.Value is '.' or '\'' or '’' or '`';
 
     [GeneratedRegex(@"\s+")]
     private static partial Regex Whitespace();

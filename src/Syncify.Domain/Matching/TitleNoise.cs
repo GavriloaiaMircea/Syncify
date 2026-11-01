@@ -24,10 +24,18 @@ public static partial class TitleNoise
     public static string Clean(string songPart)
     {
         var result = CreditAfterBracket().Replace(songPart, string.Empty);
-        result = Bracket().Replace(result, CleanBracket);
+
+        // Each pass only sees innermost brackets, so "[Videoclip Oficial (HD)]" needs a second pass for the outer one.
+        string previous;
+        do
+        {
+            previous = result;
+            result = Bracket().Replace(result, CleanBracket);
+        }
+        while (result != previous);
+
         result = RemoveSymbols(result);
 
-        string previous;
         do
         {
             previous = result;
@@ -133,6 +141,6 @@ public static partial class TitleNoise
     [GeneratedRegex(@"(?<=\S)\s+(?:HD|HQ|4K)\s*$")]
     private static partial Regex TrailingQuality();
 
-    [GeneratedRegex(@"\s+[-–—]\s+|\s(?:feat\.?|ft\.?|featuring)\s", RegexOptions.IgnoreCase)]
+    [GeneratedRegex(@"\s+[-–—]\s+|\s" + ArtistSplitter.FeatureMarker + @"\s", RegexOptions.IgnoreCase)]
     private static partial Regex CoreCut();
 }

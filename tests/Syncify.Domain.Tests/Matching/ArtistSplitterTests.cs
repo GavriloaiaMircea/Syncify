@@ -20,6 +20,7 @@ public sealed class ArtistSplitterTests
     [InlineData("Mariano 〽️🌍", "Mariano")]
     [InlineData("B.U.G. Mafia", "B.U.G. Mafia")]
     [InlineData("INNA feat. Inna", "INNA")]
+    [InlineData("INNA (feat. J Balvin)", "INNA|J Balvin")]
     public void Split_ArtistCredit_ReturnsIndividualArtists(string credit, string expected) =>
         ArtistSplitter.Split(credit).ShouldBe(expected.Split('|'));
 

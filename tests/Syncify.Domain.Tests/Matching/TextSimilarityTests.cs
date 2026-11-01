@@ -8,9 +8,14 @@ public sealed class TextSimilarityTests
     [InlineData("Bună, ce mai zici?", "Buna ce mai zici")]
     [InlineData("P.O.H.U.I.", "POHUI")]
     [InlineData("Marius Moga", "Moga Marius")]
-    [InlineData("", "")]
     public void Compare_EquivalentText_ReturnsOne(string left, string right) =>
         TextSimilarity.Compare(left, right).ShouldBe(1);
+
+    [Theory]
+    [InlineData("", "")]
+    [InlineData("🍹", "🍹")]
+    public void Compare_NothingToCompare_ReturnsZero(string left, string right) =>
+        TextSimilarity.Compare(left, right).ShouldBe(0);
 
     [Theory]
     [InlineData("Connect-R", "Connect R")]

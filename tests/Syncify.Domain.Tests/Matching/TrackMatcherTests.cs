@@ -57,6 +57,19 @@ public sealed class TrackMatcherTests
     }
 
     [Fact]
+    public void Match_SimilarButDifferentArtist_IsNeverMatched()
+    {
+        var duration = TimeSpan.FromSeconds(200);
+
+        var result = TrackMatcher.Match(
+            new TrackInfo("Tu", ["Florin Salam"], duration),
+            [Candidate("1", "Tu", ["Florin Cercel"], duration)]);
+
+        result.Status.ShouldBe(MatchStatus.Ambiguous);
+        result.Reasons.ShouldContain(MatchReason.ArtistMismatch);
+    }
+
+    [Fact]
     public void Match_DifferentTitle_ReturnsNotFound()
     {
         var result = TrackMatcher.Match(Track("Dalinda", "Alex Mica"), [Candidate("1", "Panama", "Alex Mica")]);
@@ -102,6 +115,36 @@ public sealed class TrackMatcherTests
 
         result.Status.ShouldBe(MatchStatus.Matched);
         result.Reasons.ShouldContain(MatchReason.ArtistFoundInTitle);
+    }
+
+    [Fact]
+    public void Match_LiveSourceWithArtistInTitle_PrefersLiveCandidate()
+    {
+        var result = TrackMatcher.Match(
+            Track("Theo Rose Pacatul Meu (Live)"),
+            [Candidate("studio", "Pacatul Meu", "Theo Rose"), Candidate("live", "Pacatul Meu (Live)", "Theo Rose")]);
+
+        result.Candidate!.Id.ShouldBe("live");
+        result.Reasons.ShouldNotContain(MatchReason.VersionMismatch);
+    }
+
+    [Fact]
+    public void Match_JoinerLeftAtEndOfTitle_IsIgnored()
+    {
+        var result = TrackMatcher.Match(Track("Pacatul Meu feat. Theo Rose"), [Candidate("1", "Pacatul Meu", "Theo Rose")]);
+
+        result.Status.ShouldBe(MatchStatus.Matched);
+    }
+
+    [Theory]
+    [InlineData("Mi-e dor de tine", "Tine")]
+    [InlineData("Da vina pe VOLTAJ", "Voltaj")]
+    public void Match_ArtistNameIsPartOfSongTitle_DoesNotCountAsArtistCredit(string title, string artist)
+    {
+        var result = TrackMatcher.Match(Track(title), [Candidate("1", title, artist)]);
+
+        result.Status.ShouldBe(MatchStatus.Ambiguous);
+        result.Reasons.ShouldContain(MatchReason.ArtistUnknown);
     }
 
     [Fact]
