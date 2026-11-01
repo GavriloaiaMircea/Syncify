@@ -1,0 +1,107 @@
+{
+  "tracks": {
+    "href": "https://api.spotify.com/v1/search?offset=0&limit=10&query=track%3A%22Daca%20dragostea%20era%20pe%20bani%22%20artist%3A%22Leo%20de%20la%20Izvoare%22&type=track&market=RO",
+    "limit": 10,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total": 1,
+    "items": [
+      {
+        "album": {
+          "album_type": "single",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/4GKftOQvdMcVHwDHqfnfos"
+              },
+              "href": "https://api.spotify.com/v1/artists/4GKftOQvdMcVHwDHqfnfos",
+              "id": "4GKftOQvdMcVHwDHqfnfos",
+              "name": "Leo de la Izvoare",
+              "type": "artist",
+              "uri": "spotify:artist:4GKftOQvdMcVHwDHqfnfos"
+            },
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/264Be2Waq137vybMlFYCnu"
+              },
+              "href": "https://api.spotify.com/v1/artists/264Be2Waq137vybMlFYCnu",
+              "id": "264Be2Waq137vybMlFYCnu",
+              "name": "Theo Rose",
+              "type": "artist",
+              "uri": "spotify:artist:264Be2Waq137vybMlFYCnu"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/6hJRyeeyMKH06OZd38Zvdb"
+          },
+          "href": "https://api.spotify.com/v1/albums/6hJRyeeyMKH06OZd38Zvdb",
+          "id": "6hJRyeeyMKH06OZd38Zvdb",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273356f74ab41e6f2b0117bb43d"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02356f74ab41e6f2b0117bb43d"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851356f74ab41e6f2b0117bb43d"
+            }
+          ],
+          "is_playable": true,
+          "name": "Dacă dragostea era pe bani",
+          "release_date": "2025-07-25",
+          "release_date_precision": "day",
+          "total_tracks": 1,
+          "type": "album",
+          "uri": "spotify:album:6hJRyeeyMKH06OZd38Zvdb"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4GKftOQvdMcVHwDHqfnfos"
+            },
+            "href": "https://api.spotify.com/v1/artists/4GKftOQvdMcVHwDHqfnfos",
+            "id": "4GKftOQvdMcVHwDHqfnfos",
+            "name": "Leo de la Izvoare",
+            "type": "artist",
+            "uri": "spotify:artist:4GKftOQvdMcVHwDHqfnfos"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/264Be2Waq137vybMlFYCnu"
+            },
+            "href": "https://api.spotify.com/v1/artists/264Be2Waq137vybMlFYCnu",
+            "id": "264Be2Waq137vybMlFYCnu",
+            "name": "Theo Rose",
+            "type": "artist",
+            "uri": "spotify:artist:264Be2Waq137vybMlFYCnu"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 130063,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "ROGRA2500497"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/5Cmg8c4WWohkaXwIYGL20n"
+        },
+        "href": "https://api.spotify.com/v1/tracks/5Cmg8c4WWohkaXwIYGL20n",
+        "id": "5Cmg8c4WWohkaXwIYGL20n",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Dacă dragostea era pe bani",
+        "track_number": 1,
+        "type": "track",
+        "uri": "spotify:track:5Cmg8c4WWohkaXwIYGL20n"
+      }
+    ]
+  }
+}

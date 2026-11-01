@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using Scalar.AspNetCore;
 using Syncify.Api.Endpoints;
+using Syncify.Application;
 using Syncify.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +18,7 @@ builder.Services.AddCors(options =>
 builder.Services.ConfigureHttpJsonOptions(options =>
     options.SerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 builder.Services.AddOpenApi();
+builder.Services.AddApplication();
 builder.Services.AddInfrastructure();
 
 var app = builder.Build();

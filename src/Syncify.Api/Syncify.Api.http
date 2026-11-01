@@ -10,3 +10,10 @@ GET {{Syncify.Api_HostAddress}}/dev/youtube/playlist?link=https://www.youtube.co
 Accept: application/json
 
 ###
+
+# Development only. Needs YouTube:ApiKey, Spotify:ClientId and Spotify:ClientSecret in user-secrets.
+# Searches Spotify for every video (one or two searches each), so a 300-video playlist takes a few seconds.
+GET {{Syncify.Api_HostAddress}}/dev/preview?link=PLOp8kZQdZGQs
+Accept: application/json
+
+###
