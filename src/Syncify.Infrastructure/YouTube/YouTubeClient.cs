@@ -38,6 +38,7 @@ internal sealed class YouTubeClient(HttpClient http) : IYouTubeClient
         }
 
         var videos = new List<YouTubeVideo>();
+        var seenTokens = new HashSet<string>(StringComparer.Ordinal);
         string? pageToken = null;
         do
         {
@@ -66,6 +67,13 @@ internal sealed class YouTubeClient(HttpClient http) : IYouTubeClient
 
             videos.AddRange(items.Select(item => ToVideo(item, durations.Body!)));
             pageToken = page.Body.NextPageToken;
+
+            // A repeated token would loop until the daily quota is gone. Throw rather than return a partial
+            // playlist, which a sync would read as videos removed from it.
+            if (pageToken is not null && !seenTokens.Add(pageToken))
+            {
+                throw new InvalidOperationException($"YouTube playlistItems.list returned page token '{pageToken}' twice.");
+            }
         }
         while (pageToken is not null);
 
@@ -80,7 +88,8 @@ internal sealed class YouTubeClient(HttpClient http) : IYouTubeClient
         IEnumerable<string> videoIds,
         CancellationToken cancellationToken)
     {
-        var ids = string.Join(',', videoIds);
+        // A playlist may hold the same video twice, and videos.list then returns it twice too.
+        var ids = string.Join(',', videoIds.Distinct(StringComparer.Ordinal));
         if (ids.Length == 0)
         {
             return new(new Dictionary<string, TimeSpan?>(), null);
@@ -93,7 +102,9 @@ internal sealed class YouTubeClient(HttpClient http) : IYouTubeClient
 
         return response.Error is { } error
             ? new(null, error)
-            : new(response.Body!.Items.ToDictionary(video => video.Id, video => YouTubeDuration.Parse(video.ContentDetails?.Duration)), null);
+            : new(response.Body!.Items
+                .DistinctBy(video => video.Id, StringComparer.Ordinal)
+                .ToDictionary(video => video.Id, video => YouTubeDuration.Parse(video.ContentDetails?.Duration)), null);
     }
 
     private static YouTubeVideo ToVideo(PlaylistItemResource item, IReadOnlyDictionary<string, TimeSpan?> durations)
@@ -130,7 +141,7 @@ internal sealed class YouTubeClient(HttpClient http) : IYouTubeClient
         }
 
         var reason = await ReadErrorReasonAsync(response, cancellationToken);
-        var error = ToError(response.StatusCode, reason)
+        var error = ToError(resource, response.StatusCode, reason)
             ?? throw new HttpRequestException(
                 $"YouTube {resource}.list failed with {(int)response.StatusCode} ({reason ?? "no reason"}).",
                 inner: null,
@@ -138,13 +149,16 @@ internal sealed class YouTubeClient(HttpClient http) : IYouTubeClient
         return new(null, error);
     }
 
-    private static YouTubeError? ToError(HttpStatusCode status, string? reason) => (status, reason) switch
+    /// <summary>
+    /// Maps only the documented reasons an expected outcome produces. Anything else, such as a 404 caused by a wrong
+    /// BaseAddress, is a bug or an outage and must not look like a missing playlist.
+    /// </summary>
+    private static YouTubeError? ToError(string resource, HttpStatusCode status, string? reason) => (resource, status, reason) switch
     {
-        (HttpStatusCode.NotFound, _) => YouTubeError.NotFound,
-        // IDs that are not shaped like a real playlist ID are rejected as "invalid" rather than "not found".
-        (HttpStatusCode.BadRequest, "invalid") => YouTubeError.NotFound,
-        (HttpStatusCode.Forbidden, "playlistItemsNotAccessible") => YouTubeError.NotAccessible,
-        (HttpStatusCode.Forbidden, "quotaExceeded") => YouTubeError.QuotaExceeded,
+        (_, HttpStatusCode.Forbidden, "quotaExceeded") => YouTubeError.QuotaExceeded,
+        // playlists.list already returned the playlist, so it was deleted or made private while being read.
+        ("playlistItems", HttpStatusCode.NotFound, "playlistNotFound") => YouTubeError.NotFound,
+        ("playlistItems", HttpStatusCode.Forbidden, "playlistItemsNotAccessible") => YouTubeError.NotAccessible,
         _ => null,
     };
 

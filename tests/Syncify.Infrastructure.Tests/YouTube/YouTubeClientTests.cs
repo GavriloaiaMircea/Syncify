@@ -159,7 +159,6 @@ public sealed class YouTubeClientTests : IDisposable
 
     [Theory]
     [InlineData("Errors/playlist-not-found.json", 404, YouTubeError.NotFound)]
-    [InlineData("Errors/invalid-value.json", 400, YouTubeError.NotFound)]
     [InlineData("Errors/playlist-items-not-accessible.json", 403, YouTubeError.NotAccessible)]
     [InlineData("Errors/quota-exceeded.json", 403, YouTubeError.QuotaExceeded)]
     public async Task GetPlaylistAsync_PlaylistItemsFails_ReturnsError(string fixture, int statusCode, YouTubeError expected)
@@ -183,6 +182,89 @@ public sealed class YouTubeClientTests : IDisposable
         var result = await api.CreateClient().GetPlaylistAsync(Id(RecordedPlaylistId), CancellationToken.None);
 
         result.Error.ShouldBe(YouTubeError.QuotaExceeded);
+        api.RequestsTo(resource).Count.ShouldBe(1);
+    }
+
+    [Theory]
+    // playlists.list answers malformed IDs with an empty list, so "invalid" here means the client sent a bad request.
+    [InlineData("playlistItems", "Errors/invalid-value.json", 400)]
+    [InlineData("videos", "Errors/playlist-not-found.json", 404)]
+    public async Task GetPlaylistAsync_ErrorThatIsNotAnExpectedOutcome_Throws(string resource, string fixture, int statusCode)
+    {
+        api.AddRecordedPlaylist(RecordedPlaylistId);
+        api.RespondWithFixture(resource, fixture, statusCode);
+
+        var exception = await Should.ThrowAsync<HttpRequestException>(
+            () => api.CreateClient().GetPlaylistAsync(Id(RecordedPlaylistId), CancellationToken.None));
+
+        exception.StatusCode.ShouldBe((HttpStatusCode)statusCode);
+    }
+
+    [Fact]
+    public async Task GetPlaylistAsync_WrongBaseAddress_ThrowsInsteadOfReportingNotFound()
+    {
+        api.AddRecordedPlaylist(RecordedPlaylistId);
+
+        var exception = await Should.ThrowAsync<HttpRequestException>(
+            () => api.CreateClient(apiPath: "/wrong/v3/").GetPlaylistAsync(Id(RecordedPlaylistId), CancellationToken.None));
+
+        exception.StatusCode.ShouldBe(HttpStatusCode.NotFound);
+    }
+
+    [Theory]
+    [InlineData("playlists", 503)]
+    [InlineData("playlistItems", 500)]
+    [InlineData("videos", 502)]
+    public async Task GetPlaylistAsync_TransientServerError_RetriesAndSucceeds(string resource, int statusCode)
+    {
+        api.AddRecordedPlaylist(RecordedPlaylistId);
+        api.FailOnce(resource, statusCode);
+
+        var result = await api.CreateClient().GetPlaylistAsync(Id(RecordedPlaylistId), CancellationToken.None);
+
+        result.Playlist!.Videos.Count.ShouldBe(RecordedVideoCount);
+        api.Requests.Count.ShouldBe(1 + (2 * RecordedPageCount) + 1);
+    }
+
+    [Fact]
+    public async Task GetPlaylistAsync_SameVideoTwice_KeepsBothEntriesAndRequestsItOnce()
+    {
+        api.RespondWithJson("playlists", """{ "items": [{ "snippet": { "title": "Repeat", "channelTitle": "Me" } }] }""");
+        api.RespondWithJson("playlistItems", """
+            {
+              "items": [
+                { "snippet": { "title": "Song", "position": 0, "resourceId": { "videoId": "abcdefghijk" } } },
+                { "snippet": { "title": "Song", "position": 1, "resourceId": { "videoId": "abcdefghijk" } } }
+              ]
+            }
+            """);
+        // videos.list really does return a repeated ID twice.
+        api.RespondWithJson("videos", """
+            {
+              "items": [
+                { "id": "abcdefghijk", "contentDetails": { "duration": "PT3M" } },
+                { "id": "abcdefghijk", "contentDetails": { "duration": "PT3M" } }
+              ]
+            }
+            """);
+
+        var result = await api.CreateClient().GetPlaylistAsync(Id("PLrepeatedvideo"), CancellationToken.None);
+
+        result.Playlist!.Videos.Select(video => (video.Position, video.Duration, video.Availability))
+            .ShouldBe([(0, TimeSpan.FromMinutes(3), VideoAvailability.Available), (1, TimeSpan.FromMinutes(3), VideoAvailability.Available)]);
+        YouTubeApiFake.QueryValue(api.RequestsTo("videos").ShouldHaveSingleItem(), "id").ShouldBe("abcdefghijk");
+    }
+
+    [Fact]
+    public async Task GetPlaylistAsync_PageTokenRepeats_ThrowsInsteadOfLooping()
+    {
+        api.RespondWithJson("playlists", """{ "items": [{ "snippet": { "title": "Loop", "channelTitle": "Me" } }] }""");
+        api.RespondWithJson("playlistItems", """{ "nextPageToken": "SAME", "items": [] }""");
+
+        await Should.ThrowAsync<InvalidOperationException>(
+            () => api.CreateClient().GetPlaylistAsync(Id("PLloopingtokens"), CancellationToken.None));
+
+        api.RequestsTo("playlistItems").Count.ShouldBe(2);
     }
 
     [Fact]
@@ -200,7 +282,7 @@ public sealed class YouTubeClientTests : IDisposable
     }
 
     [Fact]
-    public async Task GetPlaylistAsync_ServerErrorWithoutJsonBody_Throws()
+    public async Task GetPlaylistAsync_ServerErrorPersists_ThrowsAfterRetries()
     {
         api.RespondWithText("playlists", 503, "<html>Service Unavailable</html>");
 
@@ -208,6 +290,7 @@ public sealed class YouTubeClientTests : IDisposable
             () => api.CreateClient().GetPlaylistAsync(Id(RecordedPlaylistId), CancellationToken.None));
 
         exception.StatusCode.ShouldBe(HttpStatusCode.ServiceUnavailable);
+        api.RequestsTo("playlists").Count.ShouldBe(4);
     }
 
     [Theory]

@@ -1,6 +1,7 @@
 using System.Text.Json.Nodes;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Http.Resilience;
 using Syncify.Application.YouTube;
 using WireMock;
 using WireMock.RequestBuilders;
@@ -27,20 +28,24 @@ internal sealed class YouTubeApiFake : IDisposable
     public IReadOnlyList<IRequestMessage> RequestsTo(string resource) =>
         Requests.Where(request => request.Path == ApiPath + resource).ToList();
 
-    public IYouTubeClient CreateClient(string? apiKey = ApiKey)
+    public IYouTubeClient CreateClient(string? apiKey = ApiKey, string apiPath = ApiPath)
     {
         var configuration = new ConfigurationBuilder()
             .AddInMemoryCollection(new Dictionary<string, string?>
             {
                 ["YouTube:ApiKey"] = apiKey,
-                ["YouTube:BaseAddress"] = server.Url + ApiPath,
+                ["YouTube:BaseAddress"] = server.Url + apiPath,
             })
             .Build();
 
-        var provider = new ServiceCollection()
+        var services = new ServiceCollection()
             .AddSingleton<IConfiguration>(configuration)
-            .AddInfrastructure()
-            .BuildServiceProvider();
+            .AddInfrastructure();
+
+        // Keep the real retry policy but without the backoff, so retry tests take milliseconds.
+        services.ConfigureAll<HttpStandardResilienceOptions>(options => options.Retry.Delay = TimeSpan.Zero);
+
+        var provider = services.BuildServiceProvider();
         providers.Add(provider);
 
         return provider.GetRequiredService<IYouTubeClient>();
@@ -91,6 +96,14 @@ internal sealed class YouTubeApiFake : IDisposable
 
     public void RespondWithFixture(string resource, string fixture, int statusCode) =>
         RespondWithJson(resource, File.ReadAllText(Path.Combine(FixturesDirectory, fixture)), statusCode);
+
+    /// <summary>Answers the first call to <paramref name="resource"/> with an error, later calls as before.</summary>
+    public void FailOnce(string resource, int statusCode) =>
+        server.Given(Request.Create().WithPath(ApiPath + resource).UsingGet())
+            .InScenario($"{resource} fails once")
+            .WillSetStateTo("recovered")
+            .AtPriority(OverridePriority)
+            .RespondWith(Response.Create().WithStatusCode(statusCode));
 
     public void RespondWithText(string resource, int statusCode, string body) =>
         server.Given(Request.Create().WithPath(ApiPath + resource).UsingGet())

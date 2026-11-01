@@ -19,7 +19,10 @@ public static class DependencyInjection
             var options = provider.GetRequiredService<IOptions<YouTubeOptions>>().Value;
             http.BaseAddress = options.BaseAddress;
             http.DefaultRequestHeaders.Add("X-Goog-Api-Key", options.ApiKey);
-        });
+        })
+        // Google APIs return occasional 5xx "backendError"; one failed page must not fail a scheduled sync.
+        // Errors with a meaning (400, 403 quota, 404) are not retried.
+        .AddStandardResilienceHandler();
 
         return services;
     }
