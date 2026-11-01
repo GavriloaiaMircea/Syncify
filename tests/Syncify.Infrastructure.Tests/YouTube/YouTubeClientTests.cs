@@ -255,6 +255,17 @@ public sealed class YouTubeClientTests : IDisposable
         YouTubeApiFake.QueryValue(api.RequestsTo("videos").ShouldHaveSingleItem(), "id").ShouldBe("abcdefghijk");
     }
 
+    [Theory]
+    [InlineData("RDdQw4w9WgXcQ")]
+    [InlineData("RDCLAK5uy_kmPRjHDECIcuVwnKsx2Ng7fyNgFKWNJFs")]
+    public async Task GetPlaylistAsync_GeneratedList_ReturnsUnsupportedWithoutCallingApi(string playlistId)
+    {
+        var result = await api.CreateClient().GetPlaylistAsync(Id(playlistId), CancellationToken.None);
+
+        result.Error.ShouldBe(YouTubeError.Unsupported);
+        api.Requests.ShouldBeEmpty();
+    }
+
     [Fact]
     public async Task GetPlaylistAsync_PageTokenRepeats_ThrowsInsteadOfLooping()
     {

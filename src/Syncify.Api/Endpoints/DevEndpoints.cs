@@ -10,16 +10,15 @@ internal static class DevEndpoints
     {
         var dev = app.MapGroup("/dev").WithTags("Dev");
 
-        dev.MapGet("/youtube/playlists/{link}", GetYouTubePlaylist)
-            .WithSummary("Reads a YouTube playlist from a playlist ID or a URL-encoded link.");
+        dev.MapGet("/youtube/playlist", GetYouTubePlaylist)
+            .WithSummary("Reads a YouTube playlist from a playlist ID or link, e.g. ?link=PLOp8kZQdZGQs.");
 
         return app;
     }
 
     private static async Task<IResult> GetYouTubePlaylist(string link, IYouTubeClient youTube, CancellationToken cancellationToken)
     {
-        // Route values keep an encoded "/" as %2F, so a pasted link arrives only partly decoded.
-        if (!YouTubePlaylistId.TryParse(Uri.UnescapeDataString(link), out var playlistId))
+        if (!YouTubePlaylistId.TryParse(link, out var playlistId))
         {
             return Results.Problem("Not a YouTube playlist ID or link.", statusCode: StatusCodes.Status400BadRequest);
         }
@@ -32,6 +31,7 @@ internal static class DevEndpoints
                 YouTubeError.NotFound => Results.Problem("The playlist does not exist or is private.", statusCode: StatusCodes.Status404NotFound),
                 YouTubeError.NotAccessible => Results.Problem("The playlist's videos cannot be read.", statusCode: StatusCodes.Status403Forbidden),
                 YouTubeError.QuotaExceeded => Results.Problem("The YouTube API quota is used up for today.", statusCode: StatusCodes.Status503ServiceUnavailable),
+                YouTubeError.Unsupported => Results.Problem("Mixes and YouTube Music radio lists cannot be imported.", statusCode: StatusCodes.Status422UnprocessableEntity),
                 _ => throw new InvalidOperationException($"Unhandled YouTube error {result.Error}."),
             };
         }

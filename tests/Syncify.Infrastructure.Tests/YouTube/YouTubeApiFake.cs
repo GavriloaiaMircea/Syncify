@@ -1,4 +1,5 @@
 using System.Text.Json.Nodes;
+using System.Web;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Http.Resilience;
@@ -111,12 +112,7 @@ internal sealed class YouTubeApiFake : IDisposable
             .RespondWith(Response.Create().WithStatusCode(statusCode).WithBody(body));
 
     public static string? QueryValue(IRequestMessage request, string name) =>
-        new Uri(request.AbsoluteUrl).Query.TrimStart('?')
-            .Split('&', StringSplitOptions.RemoveEmptyEntries)
-            .Select(pair => pair.Split('=', 2))
-            .Where(pair => pair[0] == name)
-            .Select(pair => Uri.UnescapeDataString(pair[1]))
-            .FirstOrDefault();
+        HttpUtility.ParseQueryString(new Uri(request.AbsoluteUrl).Query)[name];
 
     public static string? Header(IRequestMessage request, string name) =>
         request.Headers?.FirstOrDefault(header => string.Equals(header.Key, name, StringComparison.OrdinalIgnoreCase)).Value?.FirstOrDefault();

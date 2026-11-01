@@ -5,8 +5,8 @@ Accept: application/json
 
 ###
 
-# Development only. Needs YouTube:ApiKey in user-secrets; a full link must be URL-encoded.
-GET {{Syncify.Api_HostAddress}}/dev/youtube/playlists/PLOp8kZQdZGQs
+# Development only. Needs YouTube:ApiKey in user-secrets. Takes a playlist ID or link.
+GET {{Syncify.Api_HostAddress}}/dev/youtube/playlist?link=https://www.youtube.com/playlist?list=PLOp8kZQdZGQs
 Accept: application/json
 
 ###

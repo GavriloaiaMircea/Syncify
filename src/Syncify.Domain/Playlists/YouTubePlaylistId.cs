@@ -1,5 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
+using System.Web;
 
 namespace Syncify.Domain.Playlists;
 
@@ -45,12 +46,7 @@ public sealed partial record YouTubePlaylistId
             return null;
         }
 
-        return uri.Query.TrimStart('?')
-            .Split('&', StringSplitOptions.RemoveEmptyEntries)
-            .Select(pair => pair.Split('=', 2))
-            .Where(pair => pair is ["list", _])
-            .Select(pair => Uri.UnescapeDataString(pair[1]))
-            .FirstOrDefault();
+        return HttpUtility.ParseQueryString(uri.Query)["list"];
     }
 
     // Most IDs are "PL" + 32 characters, but older playlists have short ones such as "PLOp8kZQdZGQs".

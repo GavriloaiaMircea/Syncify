@@ -19,8 +19,16 @@ internal sealed class YouTubeClient(HttpClient http) : IYouTubeClient
         "nextPageToken,items(snippet(title,position,videoOwnerChannelTitle,resourceId(videoId)),status(privacyStatus))";
     private const string VideoFields = "items(id,contentDetails(duration))";
 
+    // Mixes ("RDdQw4w9WgXcQ") and YouTube Music radio ("RDCLAK5uy_...") return page tokens that cycle.
+    private const string GeneratedListPrefix = "RD";
+
     public async Task<YouTubePlaylistResult> GetPlaylistAsync(YouTubePlaylistId playlistId, CancellationToken cancellationToken)
     {
+        if (playlistId.Value.StartsWith(GeneratedListPrefix, StringComparison.Ordinal))
+        {
+            return YouTubePlaylistResult.Failure(YouTubeError.Unsupported);
+        }
+
         var playlists = await GetAsync<PlaylistListResponse>(
             "playlists",
             [("part", "snippet"), ("id", playlistId.Value), ("fields", PlaylistFields)],
@@ -68,8 +76,8 @@ internal sealed class YouTubeClient(HttpClient http) : IYouTubeClient
             videos.AddRange(items.Select(item => ToVideo(item, durations.Body!)));
             pageToken = page.Body.NextPageToken;
 
-            // A repeated token would loop until the daily quota is gone. Throw rather than return a partial
-            // playlist, which a sync would read as videos removed from it.
+            // A repeated token would loop until the daily quota is gone. Throw rather than silently return
+            // a partial playlist.
             if (pageToken is not null && !seenTokens.Add(pageToken))
             {
                 throw new InvalidOperationException($"YouTube playlistItems.list returned page token '{pageToken}' twice.");

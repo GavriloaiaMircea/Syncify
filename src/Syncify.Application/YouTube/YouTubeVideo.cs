@@ -2,7 +2,8 @@ namespace Syncify.Application.YouTube;
 
 /// <summary>
 /// One playlist entry. Unavailable entries keep YouTube's placeholder title ("Deleted video", "Private video")
-/// and have no channel or duration.
+/// and have no channel or duration. Available entries can also lack a duration: live streams and upcoming
+/// premieres report none.
 /// </summary>
 public sealed record YouTubeVideo(
     string VideoId,

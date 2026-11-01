@@ -33,4 +33,10 @@ public enum YouTubeError
 
     /// <summary>The daily API quota is used up; it resets at midnight Pacific time.</summary>
     QuotaExceeded,
+
+    /// <summary>
+    /// A list YouTube generates (Mixes and YouTube Music radio, IDs starting with "RD"). The API pages through
+    /// them in a loop, so they cannot be read reliably.
+    /// </summary>
+    Unsupported,
 }

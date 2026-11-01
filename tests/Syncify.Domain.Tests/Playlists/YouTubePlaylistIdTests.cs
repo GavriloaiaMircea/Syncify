@@ -52,6 +52,14 @@ public sealed class YouTubePlaylistIdTests
     }
 
     [Fact]
+    public void TryParse_MixLink_ReturnsMixId()
+    {
+        // Parsing stays purely syntactic; whether a list can be read is the YouTube client's call.
+        YouTubePlaylistId.TryParse("https://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1", out var id).ShouldBeTrue();
+        id.Value.ShouldBe("RDdQw4w9WgXcQ");
+    }
+
+    [Fact]
     public void Equals_SameValue_AreEqual()
     {
         YouTubePlaylistId.TryParse("PLOp8kZQdZGQs", out var raw);
