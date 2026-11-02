@@ -13,9 +13,6 @@ internal sealed class SpotifyClient(HttpClient http, IOptions<SpotifyOptions> op
 
     private const int MaxRateLimitRetries = 3;
 
-    // Spotify documents Retry-After on every 429, so this only covers a proxy that drops the header.
-    private static readonly TimeSpan DefaultRetryAfter = TimeSpan.FromSeconds(5);
-
     public async Task<SpotifySearchResult> SearchTracksAsync(string query, CancellationToken cancellationToken)
     {
         if (string.IsNullOrWhiteSpace(query))
@@ -36,13 +33,13 @@ internal sealed class SpotifyClient(HttpClient http, IOptions<SpotifyOptions> op
 
             if (response.StatusCode == HttpStatusCode.TooManyRequests)
             {
-                var retryAfter = RetryAfter(response);
+                var retryAfter = SpotifyRetryAfter.Read(response, timeProvider.GetUtcNow());
                 if (attempt == MaxRateLimitRetries || retryAfter > settings.MaxRateLimitWait)
                 {
                     return SpotifySearchResult.RateLimited(retryAfter);
                 }
 
-                await Task.Delay(retryAfter, timeProvider, cancellationToken);
+                // SpotifyRateLimitHandler holds the retry, and every other request, until Retry-After has passed.
                 continue;
             }
 
@@ -65,13 +62,6 @@ internal sealed class SpotifyClient(HttpClient http, IOptions<SpotifyOptions> op
                 .ToList());
         }
     }
-
-    private TimeSpan RetryAfter(HttpResponseMessage response) => response.Headers.RetryAfter switch
-    {
-        { Delta: { } delta } => delta,
-        { Date: { } date } => TimeSpan.FromTicks(Math.Max(0, (date - timeProvider.GetUtcNow()).Ticks)),
-        _ => DefaultRetryAfter,
-    };
 
     private static SpotifyTrack ToTrack(TrackObject track) => new(
         track.Id,

@@ -45,7 +45,20 @@ internal sealed class SpotifyApiFake : IDisposable
         string? clientId = ClientId,
         string? market = null,
         TimeProvider? timeProvider = null,
-        TimeSpan? maxRateLimitWait = null)
+        TimeSpan? maxRateLimitWait = null,
+        double maxRequestsPerSecond = 1000) =>
+        CreateServices(clientId, market, timeProvider, maxRateLimitWait, maxRequestsPerSecond).GetRequiredService<ISpotifyClient>();
+
+    /// <summary>
+    /// A container like the app's; clients resolved from the same one share the token and the request gate.
+    /// Pacing defaults to 1000 requests per second so tests that do not check it stay fast.
+    /// </summary>
+    public IServiceProvider CreateServices(
+        string? clientId = ClientId,
+        string? market = null,
+        TimeProvider? timeProvider = null,
+        TimeSpan? maxRateLimitWait = null,
+        double maxRequestsPerSecond = 1000)
     {
         var settings = new Dictionary<string, string?>
         {
@@ -54,6 +67,7 @@ internal sealed class SpotifyApiFake : IDisposable
             ["Spotify:AccountsBaseAddress"] = server.Url + "/accounts/",
             ["Spotify:ApiBaseAddress"] = server.Url + "/v1/",
             ["Spotify:Market"] = market,
+            ["Spotify:MaxRequestsPerSecond"] = maxRequestsPerSecond.ToString(System.Globalization.CultureInfo.InvariantCulture),
         };
 
         // A null value would bind as TimeSpan.Zero instead of leaving the default.
@@ -80,7 +94,7 @@ internal sealed class SpotifyApiFake : IDisposable
         var provider = services.BuildServiceProvider();
         providers.Add(provider);
 
-        return provider.GetRequiredService<ISpotifyClient>();
+        return provider;
     }
 
     public void RespondToSearch(string fixture, int statusCode = 200) =>
@@ -111,6 +125,11 @@ internal sealed class SpotifyApiFake : IDisposable
             .WillSetStateTo("recovered")
             .AtPriority(OverridePriority)
             .RespondWith(RateLimitResponse(retryAfter));
+
+    public void RespondToSearchWithStatus(int statusCode) =>
+        server.Given(Request.Create().WithPath(SearchPath).UsingGet())
+            .AtPriority(OverridePriority)
+            .RespondWith(Response.Create().WithStatusCode(statusCode));
 
     public void FailFirstSearch(int statusCode) =>
         server.Given(Request.Create().WithPath(SearchPath).UsingGet())

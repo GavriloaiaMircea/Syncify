@@ -8,8 +8,7 @@ namespace Syncify.Application.Preview;
 /// <summary>Matches every video of a YouTube playlist against Spotify without changing anything on either side.</summary>
 public sealed class PlaylistPreviewService(IYouTubeClient youTube, SpotifyTrackFinder finder)
 {
-    // Spotify locked a development-mode app out for a day (Retry-After ~24h) after about 1,100 searches made four
-    // at a time, so this stays low: a 300-video preview takes about a minute.
+    // The Spotify client paces requests app-wide; two in flight only hide each other's latency.
     private const int MaxConcurrentSearches = 2;
 
     public async Task<PlaylistPreviewResult> PreviewAsync(YouTubePlaylistId playlistId, CancellationToken cancellationToken)

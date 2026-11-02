@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text;
 using System.Text.Json.Nodes;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Time.Testing;
 using Syncify.Application.Spotify;
@@ -238,6 +239,94 @@ public sealed class SpotifyClientTests : IDisposable
         result.RetryAfter.ShouldBe(TimeSpan.FromSeconds(5));
     }
 
+    [Fact]
+    public async Task SearchTracksAsync_ManySearchesAtOnce_AreSentAtTheConfiguredPace()
+    {
+        var time = new FakeTimeProvider();
+        var client = api.CreateClient(timeProvider: time, maxRequestsPerSecond: 2);
+
+        var searches = Enumerable.Range(0, 3).Select(i => client.SearchTracksAsync($"{Query} {i}", CancellationToken.None)).ToList();
+        await SettleAsync();
+        api.RequestsTo(SpotifyApiFake.SearchPath).Count.ShouldBe(1);
+
+        time.Advance(TimeSpan.FromMilliseconds(499));
+        await SettleAsync();
+        api.RequestsTo(SpotifyApiFake.SearchPath).Count.ShouldBe(1);
+
+        time.Advance(TimeSpan.FromMilliseconds(1));
+        await WaitUntilAsync(() => api.RequestsTo(SpotifyApiFake.SearchPath).Count == 2);
+
+        time.Advance(TimeSpan.FromMilliseconds(500));
+        await Task.WhenAll(searches).WaitAsync(TimeSpan.FromSeconds(10));
+        api.RequestsTo(SpotifyApiFake.SearchPath).Count.ShouldBe(3);
+    }
+
+    [Fact]
+    public async Task SearchTracksAsync_AnotherClientWasRateLimited_WaitsForTheSamePause()
+    {
+        var time = new FakeTimeProvider();
+        var services = api.CreateServices(timeProvider: time);
+        api.RateLimitFirstSearch("10");
+
+        var first = services.GetRequiredService<ISpotifyClient>().SearchTracksAsync(Query, CancellationToken.None);
+        await WaitUntilAsync(() => api.RequestsTo(SpotifyApiFake.SearchPath).Count == 1);
+        await SettleAsync();
+        var second = services.GetRequiredService<ISpotifyClient>().SearchTracksAsync($"{Query} 2", CancellationToken.None);
+        await SettleAsync();
+
+        api.RequestsTo(SpotifyApiFake.SearchPath).Count.ShouldBe(1);
+        second.IsCompleted.ShouldBeFalse();
+
+        time.Advance(TimeSpan.FromSeconds(10));
+        await SettleAsync();
+        // After the pause the two requests still go out one pacing slot apart.
+        time.Advance(TimeSpan.FromSeconds(1));
+        var results = await Task.WhenAll(first, second).WaitAsync(TimeSpan.FromSeconds(10));
+
+        results.ShouldAllBe(result => result.IsSuccess);
+        api.RequestsTo(SpotifyApiFake.SearchPath).Count.ShouldBe(3);
+    }
+
+    [Fact]
+    public async Task SearchTracksAsync_DuringALongPause_ReturnsRateLimitedWithoutCallingSpotify()
+    {
+        var time = new FakeTimeProvider();
+        var client = api.CreateClient(timeProvider: time);
+        api.RateLimitSearches("85992");
+        await client.SearchTracksAsync(Query, CancellationToken.None);
+
+        time.Advance(TimeSpan.FromHours(1));
+        var result = await client.SearchTracksAsync(Query, CancellationToken.None);
+
+        result.RetryAfter.ShouldBe(TimeSpan.FromSeconds(85992) - TimeSpan.FromHours(1));
+        api.RequestsTo(SpotifyApiFake.SearchPath).Count.ShouldBe(1);
+    }
+
+    [Fact]
+    public async Task SearchTracksAsync_TokenRejectedBeforeExpiry_GetsANewTokenAndRetriesOnce()
+    {
+        api.FailFirstSearch(401);
+
+        var result = await api.CreateClient().SearchTracksAsync(Query, CancellationToken.None);
+
+        result.Tracks!.Count.ShouldBe(10);
+        api.RequestsTo(SpotifyApiFake.TokenPath).Count.ShouldBe(2);
+        api.RequestsTo(SpotifyApiFake.SearchPath).Count.ShouldBe(2);
+    }
+
+    [Fact]
+    public async Task SearchTracksAsync_NewTokenRejectedToo_Throws()
+    {
+        api.RespondToSearchWithStatus(401);
+
+        var exception = await Should.ThrowAsync<HttpRequestException>(
+            () => api.CreateClient().SearchTracksAsync(Query, CancellationToken.None));
+
+        exception.StatusCode.ShouldBe(HttpStatusCode.Unauthorized);
+        api.RequestsTo(SpotifyApiFake.TokenPath).Count.ShouldBe(2);
+        api.RequestsTo(SpotifyApiFake.SearchPath).Count.ShouldBe(2);
+    }
+
     [Theory]
     [InlineData(null)]
     [InlineData("")]
@@ -251,6 +340,9 @@ public sealed class SpotifyClientTests : IDisposable
     {
         Should.Throw<OptionsValidationException>(() => api.CreateClient(market: "Romania"));
     }
+
+    // Lets requests that are not held back reach the fake server before asserting that others are.
+    private static Task SettleAsync() => Task.Delay(TimeSpan.FromMilliseconds(200));
 
     private static async Task WaitUntilAsync(Func<bool> condition)
     {

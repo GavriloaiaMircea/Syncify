@@ -49,6 +49,8 @@ public static class DependencyInjection
             .ValidateDataAnnotations();
 
         services.AddSingleton<SpotifyTokenProvider>();
+        services.AddSingleton<SpotifyRequestGate>();
+        services.AddTransient<SpotifyRateLimitHandler>();
         services.AddTransient<SpotifyAuthenticationHandler>();
 
         services.AddHttpClient(SpotifyTokenProvider.HttpClientName, (provider, http) =>
@@ -57,7 +59,9 @@ public static class DependencyInjection
 
         services.AddHttpClient<ISpotifyClient, SpotifyClient>((provider, http) =>
             http.BaseAddress = provider.GetRequiredService<IOptions<SpotifyOptions>>().Value.ApiBaseAddress)
-            // Outside the resilience handler, so retries reuse the token instead of asking for one each time.
+            // Both outside the resilience handler: its attempt timeout would cut a rate-limit wait short, and retries
+            // reuse the token instead of asking for one each time. Its rare 5xx retries go unpaced.
+            .AddHttpMessageHandler<SpotifyRateLimitHandler>()
             .AddHttpMessageHandler<SpotifyAuthenticationHandler>()
             .AddStandardResilienceHandler(options =>
             {

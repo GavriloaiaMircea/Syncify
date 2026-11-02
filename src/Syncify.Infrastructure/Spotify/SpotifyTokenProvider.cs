@@ -46,6 +46,18 @@ internal sealed class SpotifyTokenProvider(IHttpClientFactory httpClientFactory,
         }
     }
 
+    /// <summary>
+    /// Drops a token Spotify rejected before its expiry. Only that token: another request may already have
+    /// replaced it with a fresh one.
+    /// </summary>
+    public void Invalidate(string rejectedToken)
+    {
+        if (cached is { } current && current.Value == rejectedToken)
+        {
+            Interlocked.CompareExchange(ref cached, null, current);
+        }
+    }
+
     public void Dispose() => refreshLock.Dispose();
 
     private async Task<CachedToken> RequestTokenAsync(CancellationToken cancellationToken)
