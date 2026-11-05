@@ -49,6 +49,7 @@ The build treats warnings as errors. Run build + tests before every commit.
 - Secrets live in `dotnet user-secrets` (project `src/Syncify.Api`): `Spotify:ClientId`, `Spotify:ClientSecret`, `YouTube:ApiKey`. Never print, log or commit them.
 - YouTube is read with the API key (no Google login). Quota is 10,000 units/day: list calls cost 1, `search.list` costs 100.
 - Spotify redirect URI: `http://127.0.0.1:5050/auth/spotify/callback` (Spotify rejects `localhost`).
+- Spotify search (client-credentials token, no login) accepts `limit` up to 10. The app is in development mode: at ~10 searches/second it hit short 429s every ~100 requests and then got a `Retry-After` of ~24 hours. All Spotify API calls go through `SpotifyRequestGate` (app-wide pace, default 2/s, and a shared pause on 429); never bypass it. Keep live runs small and record fixtures in the same run.
 
 ## Matching notes (from the real playlists)
 

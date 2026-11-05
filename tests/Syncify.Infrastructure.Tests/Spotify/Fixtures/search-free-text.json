@@ -1,0 +1,892 @@
+{
+  "tracks": {
+    "href": "https://api.spotify.com/v1/search?offset=0&limit=10&query=Leo%20de%20la%20Izvoare%20Daca%20dragostea%20era%20pe%20bani&type=track&market=RO",
+    "limit": 10,
+    "next": "https://api.spotify.com/v1/search?offset=10&limit=10&query=Leo%20de%20la%20Izvoare%20Daca%20dragostea%20era%20pe%20bani&type=track&market=RO",
+    "offset": 0,
+    "previous": null,
+    "total": 19,
+    "items": [
+      {
+        "album": {
+          "album_type": "single",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/4GKftOQvdMcVHwDHqfnfos"
+              },
+              "href": "https://api.spotify.com/v1/artists/4GKftOQvdMcVHwDHqfnfos",
+              "id": "4GKftOQvdMcVHwDHqfnfos",
+              "name": "Leo de la Izvoare",
+              "type": "artist",
+              "uri": "spotify:artist:4GKftOQvdMcVHwDHqfnfos"
+            },
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/264Be2Waq137vybMlFYCnu"
+              },
+              "href": "https://api.spotify.com/v1/artists/264Be2Waq137vybMlFYCnu",
+              "id": "264Be2Waq137vybMlFYCnu",
+              "name": "Theo Rose",
+              "type": "artist",
+              "uri": "spotify:artist:264Be2Waq137vybMlFYCnu"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/6hJRyeeyMKH06OZd38Zvdb"
+          },
+          "href": "https://api.spotify.com/v1/albums/6hJRyeeyMKH06OZd38Zvdb",
+          "id": "6hJRyeeyMKH06OZd38Zvdb",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273356f74ab41e6f2b0117bb43d"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02356f74ab41e6f2b0117bb43d"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851356f74ab41e6f2b0117bb43d"
+            }
+          ],
+          "is_playable": true,
+          "name": "Dacă dragostea era pe bani",
+          "release_date": "2025-07-25",
+          "release_date_precision": "day",
+          "total_tracks": 1,
+          "type": "album",
+          "uri": "spotify:album:6hJRyeeyMKH06OZd38Zvdb"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4GKftOQvdMcVHwDHqfnfos"
+            },
+            "href": "https://api.spotify.com/v1/artists/4GKftOQvdMcVHwDHqfnfos",
+            "id": "4GKftOQvdMcVHwDHqfnfos",
+            "name": "Leo de la Izvoare",
+            "type": "artist",
+            "uri": "spotify:artist:4GKftOQvdMcVHwDHqfnfos"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/264Be2Waq137vybMlFYCnu"
+            },
+            "href": "https://api.spotify.com/v1/artists/264Be2Waq137vybMlFYCnu",
+            "id": "264Be2Waq137vybMlFYCnu",
+            "name": "Theo Rose",
+            "type": "artist",
+            "uri": "spotify:artist:264Be2Waq137vybMlFYCnu"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 130063,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "ROGRA2500497"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/5Cmg8c4WWohkaXwIYGL20n"
+        },
+        "href": "https://api.spotify.com/v1/tracks/5Cmg8c4WWohkaXwIYGL20n",
+        "id": "5Cmg8c4WWohkaXwIYGL20n",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Dacă dragostea era pe bani",
+        "track_number": 1,
+        "type": "track",
+        "uri": "spotify:track:5Cmg8c4WWohkaXwIYGL20n"
+      },
+      {
+        "album": {
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/1omKDrKCcMD79tfK8Vb2Hr"
+              },
+              "href": "https://api.spotify.com/v1/artists/1omKDrKCcMD79tfK8Vb2Hr",
+              "id": "1omKDrKCcMD79tfK8Vb2Hr",
+              "name": "Connect-R",
+              "type": "artist",
+              "uri": "spotify:artist:1omKDrKCcMD79tfK8Vb2Hr"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/1PHr44btMrryadt5XrmRSU"
+          },
+          "href": "https://api.spotify.com/v1/albums/1PHr44btMrryadt5XrmRSU",
+          "id": "1PHr44btMrryadt5XrmRSU",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b27321bb136519435252e4ff7e8b"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e0221bb136519435252e4ff7e8b"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000485121bb136519435252e4ff7e8b"
+            }
+          ],
+          "is_playable": true,
+          "name": "Daca dragostea dispare",
+          "release_date": "2008-09-14",
+          "release_date_precision": "day",
+          "total_tracks": 16,
+          "type": "album",
+          "uri": "spotify:album:1PHr44btMrryadt5XrmRSU"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/1omKDrKCcMD79tfK8Vb2Hr"
+            },
+            "href": "https://api.spotify.com/v1/artists/1omKDrKCcMD79tfK8Vb2Hr",
+            "id": "1omKDrKCcMD79tfK8Vb2Hr",
+            "name": "Connect-R",
+            "type": "artist",
+            "uri": "spotify:artist:1omKDrKCcMD79tfK8Vb2Hr"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/2KVlOXOcKbO0Lw3kFSz5fS"
+            },
+            "href": "https://api.spotify.com/v1/artists/2KVlOXOcKbO0Lw3kFSz5fS",
+            "id": "2KVlOXOcKbO0Lw3kFSz5fS",
+            "name": "Alex",
+            "type": "artist",
+            "uri": "spotify:artist:2KVlOXOcKbO0Lw3kFSz5fS"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 239730,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "ROROT0703801"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/6RmT72BVRbL71f7PULCTtX"
+        },
+        "href": "https://api.spotify.com/v1/tracks/6RmT72BVRbL71f7PULCTtX",
+        "id": "6RmT72BVRbL71f7PULCTtX",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Daca dragostea dispare",
+        "track_number": 3,
+        "type": "track",
+        "uri": "spotify:track:6RmT72BVRbL71f7PULCTtX"
+      },
+      {
+        "album": {
+          "album_type": "compilation",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/4uNuwIueJrsSRtAXgRzDmb"
+              },
+              "href": "https://api.spotify.com/v1/artists/4uNuwIueJrsSRtAXgRzDmb",
+              "id": "4uNuwIueJrsSRtAXgRzDmb",
+              "name": "Den-Isa",
+              "type": "artist",
+              "uri": "spotify:artist:4uNuwIueJrsSRtAXgRzDmb"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/1Ifqayw7BtWN4op8ETkQeN"
+          },
+          "href": "https://api.spotify.com/v1/albums/1Ifqayw7BtWN4op8ETkQeN",
+          "id": "1Ifqayw7BtWN4op8ETkQeN",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273d1197fea659cd6ea19837898"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02d1197fea659cd6ea19837898"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851d1197fea659cd6ea19837898"
+            }
+          ],
+          "is_playable": true,
+          "name": "Best Of Denisa",
+          "release_date": "2018-07-11",
+          "release_date_precision": "day",
+          "total_tracks": 20,
+          "type": "album",
+          "uri": "spotify:album:1Ifqayw7BtWN4op8ETkQeN"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4uNuwIueJrsSRtAXgRzDmb"
+            },
+            "href": "https://api.spotify.com/v1/artists/4uNuwIueJrsSRtAXgRzDmb",
+            "id": "4uNuwIueJrsSRtAXgRzDmb",
+            "name": "Den-Isa",
+            "type": "artist",
+            "uri": "spotify:artist:4uNuwIueJrsSRtAXgRzDmb"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/1WgCdu3YOI6rVp6Hr4NSc2"
+            },
+            "href": "https://api.spotify.com/v1/artists/1WgCdu3YOI6rVp6Hr4NSc2",
+            "id": "1WgCdu3YOI6rVp6Hr4NSc2",
+            "name": "Nicolae Guta",
+            "type": "artist",
+            "uri": "spotify:artist:1WgCdu3YOI6rVp6Hr4NSc2"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 290391,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "TCADH1741772"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/2fPzHZRAdWGzzhoaNfrjcY"
+        },
+        "href": "https://api.spotify.com/v1/tracks/2fPzHZRAdWGzzhoaNfrjcY",
+        "id": "2fPzHZRAdWGzzhoaNfrjcY",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Dragostea daca n-ar fi",
+        "track_number": 20,
+        "type": "track",
+        "uri": "spotify:track:2fPzHZRAdWGzzhoaNfrjcY"
+      },
+      {
+        "album": {
+          "album_type": "single",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/1jA2b2NGlnvvoENpJt7To6"
+              },
+              "href": "https://api.spotify.com/v1/artists/1jA2b2NGlnvvoENpJt7To6",
+              "id": "1jA2b2NGlnvvoENpJt7To6",
+              "name": "Leo de la Rosiori",
+              "type": "artist",
+              "uri": "spotify:artist:1jA2b2NGlnvvoENpJt7To6"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/4SUjaRSm5Ce8iEw8E5JsTi"
+          },
+          "href": "https://api.spotify.com/v1/albums/4SUjaRSm5Ce8iEw8E5JsTi",
+          "id": "4SUjaRSm5Ce8iEw8E5JsTi",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b2734086c36e92367e0429fb4014"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e024086c36e92367e0429fb4014"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d000048514086c36e92367e0429fb4014"
+            }
+          ],
+          "is_playable": true,
+          "name": "Am intrebat un om (Nebunu)",
+          "release_date": "2026-08-18",
+          "release_date_precision": "day",
+          "total_tracks": 1,
+          "type": "album",
+          "uri": "spotify:album:4SUjaRSm5Ce8iEw8E5JsTi"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/1jA2b2NGlnvvoENpJt7To6"
+            },
+            "href": "https://api.spotify.com/v1/artists/1jA2b2NGlnvvoENpJt7To6",
+            "id": "1jA2b2NGlnvvoENpJt7To6",
+            "name": "Leo de la Rosiori",
+            "type": "artist",
+            "uri": "spotify:artist:1jA2b2NGlnvvoENpJt7To6"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 213333,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "ROBRA2602282"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/2Qvl3q2nNNDAOHuT652h5w"
+        },
+        "href": "https://api.spotify.com/v1/tracks/2Qvl3q2nNNDAOHuT652h5w",
+        "id": "2Qvl3q2nNNDAOHuT652h5w",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Am intrebat un om (Nebunu)",
+        "track_number": 1,
+        "type": "track",
+        "uri": "spotify:track:2Qvl3q2nNNDAOHuT652h5w"
+      },
+      {
+        "album": {
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/5lQgZeKuSvkepIFxhv8tVa"
+              },
+              "href": "https://api.spotify.com/v1/artists/5lQgZeKuSvkepIFxhv8tVa",
+              "id": "5lQgZeKuSvkepIFxhv8tVa",
+              "name": "Alex de la Orăștie",
+              "type": "artist",
+              "uri": "spotify:artist:5lQgZeKuSvkepIFxhv8tVa"
+            },
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/7E9uSt2umnC0qK7IWHgL81"
+              },
+              "href": "https://api.spotify.com/v1/artists/7E9uSt2umnC0qK7IWHgL81",
+              "id": "7E9uSt2umnC0qK7IWHgL81",
+              "name": "Lena Miclăuș",
+              "type": "artist",
+              "uri": "spotify:artist:7E9uSt2umnC0qK7IWHgL81"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/3CMsdy14SVqkh6tGMimv08"
+          },
+          "href": "https://api.spotify.com/v1/albums/3CMsdy14SVqkh6tGMimv08",
+          "id": "3CMsdy14SVqkh6tGMimv08",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273fdde665f0b9c75ed3ddd369a"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02fdde665f0b9c75ed3ddd369a"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851fdde665f0b9c75ed3ddd369a"
+            }
+          ],
+          "is_playable": true,
+          "name": "Alex De La Orăștie Și Lena Miclăuș, Vol. 3",
+          "release_date": "2015",
+          "release_date_precision": "year",
+          "total_tracks": 16,
+          "type": "album",
+          "uri": "spotify:album:3CMsdy14SVqkh6tGMimv08"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/5lQgZeKuSvkepIFxhv8tVa"
+            },
+            "href": "https://api.spotify.com/v1/artists/5lQgZeKuSvkepIFxhv8tVa",
+            "id": "5lQgZeKuSvkepIFxhv8tVa",
+            "name": "Alex de la Orăștie",
+            "type": "artist",
+            "uri": "spotify:artist:5lQgZeKuSvkepIFxhv8tVa"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/7E9uSt2umnC0qK7IWHgL81"
+            },
+            "href": "https://api.spotify.com/v1/artists/7E9uSt2umnC0qK7IWHgL81",
+            "id": "7E9uSt2umnC0qK7IWHgL81",
+            "name": "Lena Miclăuș",
+            "type": "artist",
+            "uri": "spotify:artist:7E9uSt2umnC0qK7IWHgL81"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 227893,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "FR59R1871060"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/4CT09BDFp1ZBkSy4mAcCxm"
+        },
+        "href": "https://api.spotify.com/v1/tracks/4CT09BDFp1ZBkSy4mAcCxm",
+        "id": "4CT09BDFp1ZBkSy4mAcCxm",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Dă-Mi Dragostea Ta",
+        "track_number": 2,
+        "type": "track",
+        "uri": "spotify:track:4CT09BDFp1ZBkSy4mAcCxm"
+      },
+      {
+        "album": {
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/4RAbHb0oHO62If4S7h18L0"
+              },
+              "href": "https://api.spotify.com/v1/artists/4RAbHb0oHO62If4S7h18L0",
+              "id": "4RAbHb0oHO62If4S7h18L0",
+              "name": "B.U.G. Mafia",
+              "type": "artist",
+              "uri": "spotify:artist:4RAbHb0oHO62If4S7h18L0"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/2zIFsf5FefGkMPWS9fqg42"
+          },
+          "href": "https://api.spotify.com/v1/albums/2zIFsf5FefGkMPWS9fqg42",
+          "id": "2zIFsf5FefGkMPWS9fqg42",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273ace4e96d8222c23039f3a807"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02ace4e96d8222c23039f3a807"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851ace4e96d8222c23039f3a807"
+            }
+          ],
+          "is_playable": true,
+          "name": "Dupa Blocuri",
+          "release_date": "2000-01-18",
+          "release_date_precision": "day",
+          "total_tracks": 19,
+          "type": "album",
+          "uri": "spotify:album:2zIFsf5FefGkMPWS9fqg42"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4RAbHb0oHO62If4S7h18L0"
+            },
+            "href": "https://api.spotify.com/v1/artists/4RAbHb0oHO62If4S7h18L0",
+            "id": "4RAbHb0oHO62If4S7h18L0",
+            "name": "B.U.G. Mafia",
+            "type": "artist",
+            "uri": "spotify:artist:4RAbHb0oHO62If4S7h18L0"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 266213,
+        "explicit": true,
+        "external_ids": {
+          "isrc": "ROCMA1911839"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/3kqA4inBWuIwuduQOdS2Q1"
+        },
+        "href": "https://api.spotify.com/v1/tracks/3kqA4inBWuIwuduQOdS2Q1",
+        "id": "3kqA4inBWuIwuduQOdS2Q1",
+        "is_local": false,
+        "is_playable": true,
+        "name": "La Greu",
+        "track_number": 6,
+        "type": "track",
+        "uri": "spotify:track:3kqA4inBWuIwuduQOdS2Q1"
+      },
+      {
+        "album": {
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/6nyKhzPeKV9pzpYN0malXP"
+              },
+              "href": "https://api.spotify.com/v1/artists/6nyKhzPeKV9pzpYN0malXP",
+              "id": "6nyKhzPeKV9pzpYN0malXP",
+              "name": "IDK",
+              "type": "artist",
+              "uri": "spotify:artist:6nyKhzPeKV9pzpYN0malXP"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/6OvwfLlUMNYhJovlmnu2Km"
+          },
+          "href": "https://api.spotify.com/v1/albums/6OvwfLlUMNYhJovlmnu2Km",
+          "id": "6OvwfLlUMNYhJovlmnu2Km",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b27341e95e34e5d8dbe979cb5f2e"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e0241e95e34e5d8dbe979cb5f2e"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d0000485141e95e34e5d8dbe979cb5f2e"
+            }
+          ],
+          "is_playable": true,
+          "name": "Nonchalant",
+          "release_date": "2022-06-10",
+          "release_date_precision": "day",
+          "total_tracks": 17,
+          "type": "album",
+          "uri": "spotify:album:6OvwfLlUMNYhJovlmnu2Km"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/6nyKhzPeKV9pzpYN0malXP"
+            },
+            "href": "https://api.spotify.com/v1/artists/6nyKhzPeKV9pzpYN0malXP",
+            "id": "6nyKhzPeKV9pzpYN0malXP",
+            "name": "IDK",
+            "type": "artist",
+            "uri": "spotify:artist:6nyKhzPeKV9pzpYN0malXP"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 106666,
+        "explicit": true,
+        "external_ids": {
+          "isrc": "QZK6N2278523"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/1oxDvGKlo26GxfLD8hl7O4"
+        },
+        "href": "https://api.spotify.com/v1/tracks/1oxDvGKlo26GxfLD8hl7O4",
+        "id": "1oxDvGKlo26GxfLD8hl7O4",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Interlude",
+        "track_number": 10,
+        "type": "track",
+        "uri": "spotify:track:1oxDvGKlo26GxfLD8hl7O4"
+      },
+      {
+        "album": {
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/6bed33pnmAGVK3hyip7xo4"
+              },
+              "href": "https://api.spotify.com/v1/artists/6bed33pnmAGVK3hyip7xo4",
+              "id": "6bed33pnmAGVK3hyip7xo4",
+              "name": "Alan",
+              "type": "artist",
+              "uri": "spotify:artist:6bed33pnmAGVK3hyip7xo4"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/1sy5FydU38TaXUe6dbdb1A"
+          },
+          "href": "https://api.spotify.com/v1/albums/1sy5FydU38TaXUe6dbdb1A",
+          "id": "1sy5FydU38TaXUe6dbdb1A",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273664554677906a98203ff049f"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02664554677906a98203ff049f"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851664554677906a98203ff049f"
+            }
+          ],
+          "is_playable": true,
+          "name": "31 Februarie",
+          "release_date": "2023-10-27",
+          "release_date_precision": "day",
+          "total_tracks": 10,
+          "type": "album",
+          "uri": "spotify:album:1sy5FydU38TaXUe6dbdb1A"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/6bed33pnmAGVK3hyip7xo4"
+            },
+            "href": "https://api.spotify.com/v1/artists/6bed33pnmAGVK3hyip7xo4",
+            "id": "6bed33pnmAGVK3hyip7xo4",
+            "name": "Alan",
+            "type": "artist",
+            "uri": "spotify:artist:6bed33pnmAGVK3hyip7xo4"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 175429,
+        "explicit": true,
+        "external_ids": {
+          "isrc": "TCAHN2329219"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/2kQTTkxn0um3YdwS58zqQQ"
+        },
+        "href": "https://api.spotify.com/v1/tracks/2kQTTkxn0um3YdwS58zqQQ",
+        "id": "2kQTTkxn0um3YdwS58zqQQ",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Sfanta Satira",
+        "track_number": 3,
+        "type": "track",
+        "uri": "spotify:track:2kQTTkxn0um3YdwS58zqQQ"
+      },
+      {
+        "album": {
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/0bypMpAgjSZJaThtP1oqFV"
+              },
+              "href": "https://api.spotify.com/v1/artists/0bypMpAgjSZJaThtP1oqFV",
+              "id": "0bypMpAgjSZJaThtP1oqFV",
+              "name": "Vlad Dobrescu",
+              "type": "artist",
+              "uri": "spotify:artist:0bypMpAgjSZJaThtP1oqFV"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/1442ygWbqGNhF7DzvhLFCe"
+          },
+          "href": "https://api.spotify.com/v1/albums/1442ygWbqGNhF7DzvhLFCe",
+          "id": "1442ygWbqGNhF7DzvhLFCe",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273777944d7b1fc348bebf84663"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02777944d7b1fc348bebf84663"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851777944d7b1fc348bebf84663"
+            }
+          ],
+          "is_playable": true,
+          "name": "În Sfârșit",
+          "release_date": "2013-12-08",
+          "release_date_precision": "day",
+          "total_tracks": 14,
+          "type": "album",
+          "uri": "spotify:album:1442ygWbqGNhF7DzvhLFCe"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0bypMpAgjSZJaThtP1oqFV"
+            },
+            "href": "https://api.spotify.com/v1/artists/0bypMpAgjSZJaThtP1oqFV",
+            "id": "0bypMpAgjSZJaThtP1oqFV",
+            "name": "Vlad Dobrescu",
+            "type": "artist",
+            "uri": "spotify:artist:0bypMpAgjSZJaThtP1oqFV"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/4705Eeaq32sx2ifTBonhxH"
+            },
+            "href": "https://api.spotify.com/v1/artists/4705Eeaq32sx2ifTBonhxH",
+            "id": "4705Eeaq32sx2ifTBonhxH",
+            "name": "Aforic",
+            "type": "artist",
+            "uri": "spotify:artist:4705Eeaq32sx2ifTBonhxH"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/06JFLW3orWdOWOpljCHP8A"
+            },
+            "href": "https://api.spotify.com/v1/artists/06JFLW3orWdOWOpljCHP8A",
+            "id": "06JFLW3orWdOWOpljCHP8A",
+            "name": "raku",
+            "type": "artist",
+            "uri": "spotify:artist:06JFLW3orWdOWOpljCHP8A"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/7m05hiaaDkv8pQqncVSBGe"
+            },
+            "href": "https://api.spotify.com/v1/artists/7m05hiaaDkv8pQqncVSBGe",
+            "id": "7m05hiaaDkv8pQqncVSBGe",
+            "name": "Nwanda",
+            "type": "artist",
+            "uri": "spotify:artist:7m05hiaaDkv8pQqncVSBGe"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/3jSfv7OmnBYAboAXvDvA7E"
+            },
+            "href": "https://api.spotify.com/v1/artists/3jSfv7OmnBYAboAXvDvA7E",
+            "id": "3jSfv7OmnBYAboAXvDvA7E",
+            "name": "Flou Rege",
+            "type": "artist",
+            "uri": "spotify:artist:3jSfv7OmnBYAboAXvDvA7E"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/6Gn8NkufbqCSBJk3BNG1JB"
+            },
+            "href": "https://api.spotify.com/v1/artists/6Gn8NkufbqCSBJk3BNG1JB",
+            "id": "6Gn8NkufbqCSBJk3BNG1JB",
+            "name": "PIETONU",
+            "type": "artist",
+            "uri": "spotify:artist:6Gn8NkufbqCSBJk3BNG1JB"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 198733,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "TCADO1862099"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/1FuXDycG5mrfSXx6X5Tj0I"
+        },
+        "href": "https://api.spotify.com/v1/tracks/1FuXDycG5mrfSXx6X5Tj0I",
+        "id": "1FuXDycG5mrfSXx6X5Tj0I",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Sateliti",
+        "track_number": 8,
+        "type": "track",
+        "uri": "spotify:track:1FuXDycG5mrfSXx6X5Tj0I"
+      },
+      {
+        "album": {
+          "album_type": "album",
+          "artists": [
+            {
+              "external_urls": {
+                "spotify": "https://open.spotify.com/artist/1bw5CKaDvXFOs4i32eKJZg"
+              },
+              "href": "https://api.spotify.com/v1/artists/1bw5CKaDvXFOs4i32eKJZg",
+              "id": "1bw5CKaDvXFOs4i32eKJZg",
+              "name": "Faust",
+              "type": "artist",
+              "uri": "spotify:artist:1bw5CKaDvXFOs4i32eKJZg"
+            }
+          ],
+          "external_urls": {
+            "spotify": "https://open.spotify.com/album/4reBtYX8kyRu3NxU1albdR"
+          },
+          "href": "https://api.spotify.com/v1/albums/4reBtYX8kyRu3NxU1albdR",
+          "id": "4reBtYX8kyRu3NxU1albdR",
+          "images": [
+            {
+              "height": 640,
+              "width": 640,
+              "url": "https://i.scdn.co/image/ab67616d0000b273302896cad854391625356018"
+            },
+            {
+              "height": 300,
+              "width": 300,
+              "url": "https://i.scdn.co/image/ab67616d00001e02302896cad854391625356018"
+            },
+            {
+              "height": 64,
+              "width": 64,
+              "url": "https://i.scdn.co/image/ab67616d00004851302896cad854391625356018"
+            }
+          ],
+          "is_playable": true,
+          "name": "Despre OM trai si-OM vedea",
+          "release_date": "2024-04-19",
+          "release_date_precision": "day",
+          "total_tracks": 14,
+          "type": "album",
+          "uri": "spotify:album:4reBtYX8kyRu3NxU1albdR"
+        },
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/1bw5CKaDvXFOs4i32eKJZg"
+            },
+            "href": "https://api.spotify.com/v1/artists/1bw5CKaDvXFOs4i32eKJZg",
+            "id": "1bw5CKaDvXFOs4i32eKJZg",
+            "name": "Faust",
+            "type": "artist",
+            "uri": "spotify:artist:1bw5CKaDvXFOs4i32eKJZg"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/357du2352LkLWerYcY49WY"
+            },
+            "href": "https://api.spotify.com/v1/artists/357du2352LkLWerYcY49WY",
+            "id": "357du2352LkLWerYcY49WY",
+            "name": "Deliric",
+            "type": "artist",
+            "uri": "spotify:artist:357du2352LkLWerYcY49WY"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/23whTVC8AyDFlO8LpCOr1f"
+            },
+            "href": "https://api.spotify.com/v1/artists/23whTVC8AyDFlO8LpCOr1f",
+            "id": "23whTVC8AyDFlO8LpCOr1f",
+            "name": "Nctk",
+            "type": "artist",
+            "uri": "spotify:artist:23whTVC8AyDFlO8LpCOr1f"
+          }
+        ],
+        "disc_number": 1,
+        "duration_ms": 174222,
+        "explicit": false,
+        "external_ids": {
+          "isrc": "FR59R2442912"
+        },
+        "external_urls": {
+          "spotify": "https://open.spotify.com/track/0UZrcIJLweMCgbnNnZOLwG"
+        },
+        "href": "https://api.spotify.com/v1/tracks/0UZrcIJLweMCgbnNnZOLwG",
+        "id": "0UZrcIJLweMCgbnNnZOLwG",
+        "is_local": false,
+        "is_playable": true,
+        "name": "Fereastra",
+        "track_number": 3,
+        "type": "track",
+        "uri": "spotify:track:0UZrcIJLweMCgbnNnZOLwG"
+      }
+    ]
+  }
+}

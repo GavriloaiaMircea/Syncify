@@ -6,6 +6,7 @@
     <Project Path="src/Syncify.Infrastructure/Syncify.Infrastructure.csproj" />
   </Folder>
   <Folder Name="/tests/">
+    <Project Path="tests/Syncify.Application.Tests/Syncify.Application.Tests.csproj" />
     <Project Path="tests/Syncify.Domain.Tests/Syncify.Domain.Tests.csproj" />
     <Project Path="tests/Syncify.Infrastructure.Tests/Syncify.Infrastructure.Tests.csproj" />
   </Folder>
